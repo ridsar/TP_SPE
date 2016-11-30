@@ -1,0 +1,4 @@
+You can use the command 'make [exercice name]' to compile an exercice. For
+exemple, 'make misc' compile the misc exercice. There is also a 'clean' rule.
+
+Good luck.
