@@ -88,17 +88,11 @@ void swap(s_heap *h, size_t p, size_t f)
  */
 
 // returns false if something goes wrong (realloc fails)
-int realloc_func(s_heap *h, size_t size)
+void realloc_func(s_heap *h, size_t size)
 {
   int *tmp = realloc(h->data, size * sizeof (int));
-  if (tmp == NULL) {
-    // oups no more memory ?
-    warn("realloc of data fails");
-    return 0;
-  }
   h->data = tmp;
   h->n = size;
-  return 1;
 }
 
 int pop_heap(s_heap *h)
@@ -135,7 +129,7 @@ void insert_heap(s_heap *h, int elt)
 {
 	int check = 1, top;
 	h->n += 1;
-	size_t pos = h->n;
+	size_t pos = (h->n)-1;
 	realloc_func(h, h->n);
 	h->data[(h->n)-1] = elt;
 	while (pos > 0 && check)
@@ -166,9 +160,11 @@ void heap_sort(int* arr, size_t n)
 	{
 		arr[j] = pop_heap(h);
 	}
+	free(h->data);
+	free(h);
 }
 
-//#ifdef DEBUG
+#ifdef DEBUG
 
 int main(void)
 {
@@ -183,14 +179,14 @@ int main(void)
 	for(size_t i = 0; i < 7; ++i)
 		printf("%d ", arr[i]);
 	printf("\n");
+
 	heap_sort(arr, 7);
 	for(size_t i = 0; i < 7; ++i)
 		printf("%d ", arr[i]);
 	printf("\n");
-
+	free(arr);
 
     return 0;
 }
 
-//#endif
-
+#endif
